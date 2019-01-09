@@ -8,7 +8,7 @@
 
 import Network
 
-@objc
+@objcMembers
 public class Connectivity: NSObject {
     public typealias Framework = ConnectivityFramework
     public typealias NetworkConnected = (Connectivity) -> Void
@@ -140,7 +140,6 @@ public class Connectivity: NSObject {
     public var whenDisconnected: NetworkDisconnected?
     
     // MARK: Life cycle
-    @objc
     public init(shouldUseHTTPS: Bool = true) {
         type(of: self).isHTTPSOnly = shouldUseHTTPS
         reachability = Reachability.forInternetConnection()
@@ -159,28 +158,23 @@ public extension Connectivity {
         return "\(status)"
     }
     
-    @objc
     var isConnectedViaCellular: Bool {
         return isConnected(with: ReachableViaWWAN)
     }
     
-    @objc
     var isConnectedViaWiFi: Bool {
         return isConnected(with: ReachableViaWiFi)
     }
     
-    @objc
     var isConnectedViaCellularWithoutInternet: Bool {
         return isDisconnected(with: ReachableViaWWAN)
     }
     
-    @objc
     var isConnectedViaWiFiWithoutInternet: Bool {
         return isDisconnected(with: ReachableViaWiFi)
     }
     
     /// Checks specified URLs for the expected response to determine whether Internet connectivity exists
-    @objc
     func checkConnectivity(completion: ((Connectivity) -> Void)? = nil) {
         let dispatchGroup = DispatchGroup()
         var tasks: [URLSessionDataTask] = []
@@ -223,7 +217,6 @@ public extension Connectivity {
     }
     
     /// Listen for changes in Reachability
-    @objc
     func startNotifier(queue: DispatchQueue = DispatchQueue.main) {
         if isObservingReachability { stopNotifier() } // Perform cleanup in event this method called twice
         self.externalQueue = queue
@@ -237,7 +230,6 @@ public extension Connectivity {
     }
     
     @available(iOS 12, *)
-    @objc
     private func startPathMonitorNotifier() {
         let monitor = NWPathMonitor()
         self.pathMonitor = monitor
@@ -258,7 +250,6 @@ public extension Connectivity {
     }
     
     /// Stop listening for Reachability changes
-    @objc
     func  stopNotifier() {
         timer?.invalidate()
         if #available(iOS 12, *), isNetworkFramework() {
