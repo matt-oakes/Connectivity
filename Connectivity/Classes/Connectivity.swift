@@ -8,7 +8,8 @@
 
 import Network
 
-public class Connectivity {
+@objc
+public class Connectivity: NSObject {
     
     public typealias Framework = ConnectivityFramework
     public typealias NetworkConnected = (Connectivity) -> Void
@@ -154,7 +155,7 @@ public class Connectivity {
 public extension Connectivity {
     
     /// Textual representation of connectivity state
-    var description: String {
+    override var description: String {
         return "\(status)"
     }
     
