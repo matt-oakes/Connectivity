@@ -10,7 +10,6 @@ import Network
 
 @objc
 public class Connectivity: NSObject {
-    
     public typealias Framework = ConnectivityFramework
     public typealias NetworkConnected = (Connectivity) -> Void
     public typealias NetworkDisconnected = (Connectivity) -> Void
@@ -141,6 +140,7 @@ public class Connectivity: NSObject {
     public var whenDisconnected: NetworkDisconnected?
     
     // MARK: Life cycle
+    @objc
     public init(shouldUseHTTPS: Bool = true) {
         type(of: self).isHTTPSOnly = shouldUseHTTPS
         reachability = Reachability.forInternetConnection()
